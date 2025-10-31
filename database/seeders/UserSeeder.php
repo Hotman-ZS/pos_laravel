@@ -1,0 +1,31 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\User;
+use Faker\Factory;
+use Hash;
+use Illuminate\Contracts\Hashing\Hasher;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash as FacadesHash;
+
+class UserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // INSERT INTO users () VALUES ();
+        $faker = Factory::create("id-ID");
+        for ($i = 1; $i <= 10; $i++) {
+            User::create([
+
+                "name" => $faker->name(),
+                "email" => $faker->email(),
+                "password" => \Illuminate\Support\Facades\Hash::make("12345678"),
+            ]);
+        }
+    }
+}
