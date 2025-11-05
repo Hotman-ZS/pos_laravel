@@ -16,7 +16,8 @@ class UserController extends Controller
         // SELECT * FROM users ORDER BY id DESC
         // $users = User::all();
         $users = User::orderBy('id', 'DESC')->get();
-        return view('user.index', compact('users'));
+        $title = 'Data User';
+        return view('user.index', compact('users', 'title'));
     }
 
     /**
@@ -103,7 +104,7 @@ class UserController extends Controller
         // SELECT * FROM users WHERE id = $id
         $user = User::find($id);
         $user->delete();
-        
+
         return redirect()->route('user.index');
     }
 }
