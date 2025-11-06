@@ -90,6 +90,7 @@
 // // foreach($buttons as $btn){}
 
 let currentCategory = 'all';
+let products = []; 
 
 function filterCategory(category, event) {
   currentCategory = category;
@@ -112,9 +113,14 @@ function filterCategory(category, event) {
   renderProducts();
 }
 
-function renderProducts(searchProduct = '') {
+ async function renderProducts(searchProduct = '') {
   const productGrid = document.getElementById('productGrid');
-  productGrid.innerHTML = '';
+  productGrid.innerHTML = "";
+
+
+  const response = await fetch("/get-products");
+  products = await response.json();
+
 
   // filter
   const filtered = products.filter((p) => {
@@ -130,14 +136,13 @@ function renderProducts(searchProduct = '') {
     const col = document.createElement('div');
     col.className = 'col-md-4 col-sm-6';
     col.innerHTML = `<div class="card product-card" onclick="addToCart(${product.id})">
-
         <div class="product-img">
-          <img class="w-100" src="../${product.product_photo}" alt="" width="100%">
+          <img src="/storage/${product.product_photo}" alt="" width="100%">
         </div>
         <div class="card-body">
           <span class="badge bg-secondary badge-category">${product.category_name}</span>
           <h6 class="card-title mt-2 mb-2">${product.product_name}</h6>
-          <p class="card-text text-primary fw-bold">Rp.${product.product_price}</p>
+          <p class="card-text text-primary fw-bold">Rp. ${product.product_price}</p>
         </div>
       </div>`;
     productGrid.appendChild(col);
@@ -172,10 +177,8 @@ function renderCart() {
   }
   cart.forEach((item, index) => {
     const div = document.createElement('div');
-    div.className =
-      'cart-item d-flex justify-content-between align-items-center mb-2';
-    div.innerHTML = `
-            <div>
+    div.className ='cart-item d-flex justify-content-between align-items-center mb-2';
+    div.innerHTML = `<div>
             <strong>${item.product_name}</strong>  
             <small>${item.product_price}</small>  
           </div>
